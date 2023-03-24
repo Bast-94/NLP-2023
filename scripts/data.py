@@ -57,5 +57,29 @@ def text_processing(text: str) -> str:
   return re.sub("(\s+)", " ", result_text)
 
 def test_preprocessing(input: str, expected: str) -> None:
+    """
+    Tests the preprocessing function.
+    Args:
+        input (str): Input text
+        expected (str): Expected output
+    """
     result: str = text_processing(input)
     assert text_processing(input) == expected or print(result)
+
+def processed_dataframes(dataframes: list[pd.DataFrame]) -> tuple[pd.DataFrame]:
+    """
+    Pre-processes the given dataframes.
+    Args:
+        dataframes (list[pd.DataFrame]): List of dataframes
+    Returns:
+        tuple[pd.DataFrame]: Tuple of pre-processed dataframes
+    """
+    # Get supervised dataset from the list of dataframes
+    train_df: pd.DataFrame = dataframes[0]
+    test_df: pd.DataFrame = dataframes[1]
+
+    # Apply pre-processing
+    train_df.text = train_df.text.apply(text_processing)
+    test_df.text = test_df.text.apply(text_processing)
+    
+    return train_df, test_df
