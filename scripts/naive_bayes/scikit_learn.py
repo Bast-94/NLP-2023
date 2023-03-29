@@ -40,37 +40,6 @@ def print_most_likely_words(pipeline: Pipeline) -> None:
         print("Most likely words: ", [feature_names[j] for j in most_likely[i]])
         print("")
 
-def get_stopwords() -> None:
-    """
-    Returns a list of stopwords.
-
-    Returns:
-        list: List of stopwords
-    """
-    return stopwords.words("english")
-
-def preprocess(text: str) -> str:
-    """
-    Pre-process provided text, removing punctuations, unuseful spaces and html tags.
-
-    Args:
-        text (str): Text to preprocess
-
-    Returns:
-        str: Preprocessed text
-    """
-    result_text = text
-    result_text = clean_html(result_text)
-    result_text = result_text.lower()
-    pattern = r"(?<![a-zA-Z])[^\w\s]|[^\w\s](?![a-zA-Z])"
-    result_text = re.sub(pattern, "", result_text)
-    result_text = result_text.strip()
-    result_text = re.sub("(\s+)", " ", result_text)
-
-    lemmatizer = WordNetLemmatizer()
-    result_text = [lemmatizer.lemmatize(word) for word in result_text.split()]
-    return " ".join(result_text)
-
 #-----------------------------#
 #       Evaluation            #
 #-----------------------------#

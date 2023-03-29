@@ -3,6 +3,9 @@ import numpy as np
 import re
 from collections import Counter
 
+#-----------------------------#
+#        Preprocessing        #
+#-----------------------------#
 def tokenize(text: str)-> list:
     """
     Splits the given text into tokens.
@@ -70,7 +73,10 @@ def fill_loglikelihood(loglikelihood: dict, word: str, class_value: str, value_t
         loglikelihood[word] = {}
     loglikelihood[word][class_value] = value_to_affect
 
-def classifier(train_data_frame: pd.DataFrame, vocabulary: Counter, counter_class: pd.DataFrame) -> tuple[dict, dict, Counter]:
+#--------------------------#
+#         Training         #
+#--------------------------#
+def classifier(train_data_frame: pd.DataFrame, vocabulary: Counter, counter_class: pd.DataFrame) -> tuple[dict, dict]:
     """
     Builds the Naive Bayes classifier.
     Args:
@@ -87,16 +93,19 @@ def classifier(train_data_frame: pd.DataFrame, vocabulary: Counter, counter_clas
     
     for current_class in class_label_set:
         class_document_count: int = train_data_frame[train_data_frame.label == current_class].text.count()
-        logprior[current_class] = np.log(class_document_count/total_document_count)
+        logprior[current_class] = np.log(class_document_count / total_document_count)
         total: int = total_words(vocabulary,current_class,counter_class) + len(vocabulary)
         
         for word in vocabulary:
             count_w_c = word_count(counter_class, current_class, word) + 1
             log_like_value = np.log(count_w_c / total)
-            fill_loglikelihood(loglikelihood,word,current_class,log_like_value)
-            
-    return logprior, loglikelihood, vocabulary
+            fill_loglikelihood(loglikelihood, word, current_class, log_like_value)
 
+    return logprior, loglikelihood
+
+#-----------------------------------#
+#            Evaluation             #
+#-----------------------------------#
 def test_classifier(testdoc: str, logprior: dict, loglikelihood: dict, train_data_frame: pd.DataFrame, vocabulary: Counter) -> tuple:
     """
     Tests the Naive Bayes classifier.
@@ -125,7 +134,10 @@ def test_classifier(testdoc: str, logprior: dict, loglikelihood: dict, train_dat
         
     return max_class
 
-def display_results(dataframe: pd.DataFrame, dataset_name: str) -> None:
+#-----------------------------------#
+#             Display               #
+#-----------------------------------#
+def display_accuracy(dataframe: pd.DataFrame, dataset_name: str) -> None:
     """
     Displays the results of the Naive Bayes classifier.
     Args:
