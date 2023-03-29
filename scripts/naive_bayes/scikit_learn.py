@@ -12,7 +12,7 @@ from nltk.stem import WordNetLemmatizer
 
 from scripts.data import clean_html
 
-def pipeline(stop_words: list[str] = []) -> Pipeline:
+def pipeline(stop_words: list[str] = [], alpha: float = 1.0) -> Pipeline:
     """
     Returns a pipeline.
 
@@ -21,7 +21,7 @@ def pipeline(stop_words: list[str] = []) -> Pipeline:
     """
     return Pipeline([
         ("vect", CountVectorizer(stop_words=stop_words)),
-        ("clf", MultinomialNB())
+        ("clf", MultinomialNB(alpha=alpha))
     ])
 
 def print_most_likely_words(pipeline: Pipeline) -> None:
@@ -63,7 +63,7 @@ def print_confusion_matrix(test_dataset: pd.DataFrame, predictions: list) -> Non
     """
     print(confusion_matrix(test_dataset["label"], predictions))
 
-def print_accuracy_score(dataset: pd.DataFrame, predictions: list, set_type: str) -> None:
+def get_accuracy_score(dataset: pd.DataFrame, predictions: list, set_type: str, print_results=True) -> float:
     """
     Prints the accuracy score.
 
@@ -71,4 +71,7 @@ def print_accuracy_score(dataset: pd.DataFrame, predictions: list, set_type: str
         dataset (pd.DataFrame): Dataset
         predictions (list): Predictions on dataset
     """
-    print(f'{set_type} accuracy: {accuracy_score(dataset["label"], predictions) * 100:.2f}%')
+    accuracy: float = accuracy_score(dataset["label"], predictions) * 100
+    if print_results:
+        print(f'{set_type} accuracy: {accuracy:.2f}%')
+    return accuracy
