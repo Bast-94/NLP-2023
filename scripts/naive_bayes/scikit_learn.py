@@ -1,12 +1,16 @@
 import pandas as pd
 import numpy as np
+import re
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+from scripts.data import clean_html
 
 def pipeline(stop_words: list[str] = []) -> Pipeline:
     """
@@ -44,6 +48,28 @@ def get_stopwords() -> None:
         list: List of stopwords
     """
     return stopwords.words("english")
+
+def preprocess(text: str) -> str:
+    """
+    Pre-process provided text, removing punctuations, unuseful spaces and html tags.
+
+    Args:
+        text (str): Text to preprocess
+
+    Returns:
+        str: Preprocessed text
+    """
+    result_text = text
+    result_text = clean_html(result_text)
+    result_text = result_text.lower()
+    pattern = r"(?<![a-zA-Z])[^\w\s]|[^\w\s](?![a-zA-Z])"
+    result_text = re.sub(pattern, "", result_text)
+    result_text = result_text.strip()
+    result_text = re.sub("(\s+)", " ", result_text)
+
+    lemmatizer = WordNetLemmatizer()
+    result_text = [lemmatizer.lemmatize(word) for word in result_text.split()]
+    return " ".join(result_text)
 
 #-----------------------------#
 #       Evaluation            #
