@@ -78,13 +78,13 @@ def fill_loglikelihood(loglikelihood: dict, word: str, class_value: str, value_t
 #--------------------------#
 def classifier(train_data_frame: pd.DataFrame, vocabulary: Counter, counter_class: pd.DataFrame) -> tuple[dict, dict]:
     """
-    Builds the Naive Bayes classifier.
+    Builds the (trained) Naive Bayes classifier.
     Args:
         train_data_frame (pd.DataFrame): Training data frame
         vocabulary (Counter): Vocabulary
         counter_class (pd.DataFrame): DataFrame with the vocabulary of each class
     Returns:
-        tuple[dict, dict, Counter]: Tuple with the logprior, loglikelihood and vocabulary
+        tuple[dict, dict]: Tuple with the logprior, loglikelihood and vocabulary
     """
     total_document_count: int = train_data_frame.text.count()
     class_label_set: list = list(train_data_frame.groupby("label").groups.keys())
@@ -94,7 +94,7 @@ def classifier(train_data_frame: pd.DataFrame, vocabulary: Counter, counter_clas
     for current_class in class_label_set:
         class_document_count: int = train_data_frame[train_data_frame.label == current_class].text.count()
         logprior[current_class] = np.log(class_document_count / total_document_count)
-        total: int = total_words(vocabulary,current_class,counter_class) + len(vocabulary)
+        total: int = total_words(vocabulary, current_class, counter_class) + 1
         
         for word in vocabulary:
             count_w_c = word_count(counter_class, current_class, word) + 1
@@ -121,10 +121,11 @@ def test_classifier(testdoc: str, logprior: dict, loglikelihood: dict, train_dat
     class_set: list = list(train_data_frame.groupby("label").groups.keys())
     sums: dict = {}
     max_class = None
+    word_list = tokenize(testdoc)
 
     for c in class_set:
         sums[c] = logprior[c]
-        word_list = tokenize(testdoc)
+        
         for w in word_list:
             if(vocabulary[w] != 0):
                 sums[c] = sums[c] + loglikelihood[w][c]
