@@ -1,5 +1,5 @@
 # Introduction to NLP 01
-# Lab 02 by François Soulier, Raphael Bennaim and Bastien Hoorelbeke
+# Lab 02 by François Soulier, Raphaël Bennaïm and Bastien Hoorelbeke
 ## Short description of the project
 This project involves coding a sentiment classifier on the IMDB sentiment dataset. It is divided in three main parts:
 * Pre-processing data: getting the data and remove unuseful features in order to work on clean data.
