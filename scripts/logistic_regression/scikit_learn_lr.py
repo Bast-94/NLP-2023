@@ -13,13 +13,15 @@ def model(penalty: str ='l2', C=0.001) -> LogisticRegression:
     """
     return LogisticRegression(penalty=penalty, C=C)
 
-def fit(model: LogisticRegression, X: pd.DataFrame, y: pd.Series) -> None:
+def fit(model: LogisticRegression, X: pd.DataFrame, y: pd.Series) -> float:
     """
     Fits the model to the training data.
     Args:
         model (LogisticRegression): The model to fit.
         X (pd.DataFrame): The training data.
         y (pd.Series): The training labels.
+    Returns:
+        training_duration (float): The training duration.
     """
     # Compute the run time of the training loop
     start: float = time.time()
@@ -29,7 +31,9 @@ def fit(model: LogisticRegression, X: pd.DataFrame, y: pd.Series) -> None:
 
     # Compute the run time of the training loop
     end: float = time.time()
+    training_duration: float = end - start
     print(f"Training time: {end - start:.2f} seconds")
+    return training_duration
 
 def evaluate(model: LogisticRegression, X: pd.DataFrame, y: pd.Series, type: str) -> float:
     """

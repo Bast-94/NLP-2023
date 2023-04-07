@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import time
 from scripts.logistic_regression.model import LogisticRegression
 
-def fit(model: LogisticRegression, optimizer, criterion, X_train: pd.DataFrame, y_train: pd.Series, X_val: pd.DataFrame, y_val: pd.Series) -> tuple[list[float], list[float]]:
+def fit(model: LogisticRegression, optimizer, criterion, X_train: pd.DataFrame, y_train: pd.Series, X_val: pd.DataFrame, y_val: pd.Series) -> tuple[list[float], list[float], float]:
     """
     Fits the model to the training data.
     Args:
@@ -19,6 +19,10 @@ def fit(model: LogisticRegression, optimizer, criterion, X_train: pd.DataFrame, 
         y_train (pd.Series): The training labels.
         X_val (pd.DataFrame): The validation data.
         y_val (pd.Series): The validation labels.
+    Returns:
+        train_losses (list[float]): The training losses.
+        test_losses (list[float]): The testing losses.
+        training_duration (float): The training duration.
     """
     # Compute the run time of the training loop
     start: float = time.time()
@@ -56,9 +60,11 @@ def fit(model: LogisticRegression, optimizer, criterion, X_train: pd.DataFrame, 
 
     # Compute the run time of the training loop
     end: float = time.time()
-    print(f"Training time: {end - start:.2f} seconds")
+    training_duration: float = end - start
+    print(f"Training time: {training_duration:.2f} seconds")
 
-    return train_losses, test_losses
+
+    return train_losses, test_losses, training_duration
 
 def accuracy(predictions, labels) -> float:
     """
