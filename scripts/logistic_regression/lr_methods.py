@@ -84,3 +84,16 @@ def display_losses(training: list[float], testing: list[float]) -> None:
     plt.plot(testing, label="Testing loss")
     plt.legend(frameon=False)
     plt.show()
+
+def evaluate(type: str, model: LogisticRegression, X: pd.DataFrame, y: pd.Series) -> None:
+    """
+    Displays the accuracy of the model ('model') on the given data.
+    Args:
+        type (str): The type of data.
+        model (LogisticRegression): The model to use.
+        X (pd.DataFrame): The data.
+        y (pd.Series): The labels.
+    """
+    with torch.no_grad():
+        predictions = model(torch.tensor(X.values).float())
+        print(f"{type} accuracy: {accuracy(predictions, torch.tensor(y.values).float()) * 100:.2f}%")
