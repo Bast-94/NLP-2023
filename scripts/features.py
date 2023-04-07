@@ -7,6 +7,7 @@ import warnings
 from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+# Ignore warnings from BeautifulSoup
 warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 def get_features(text: str, sid: SentimentIntensityAnalyzer) -> list[float]:

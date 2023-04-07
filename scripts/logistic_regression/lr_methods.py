@@ -63,7 +63,6 @@ def fit(model: LogisticRegression, optimizer, criterion, X_train: pd.DataFrame, 
     training_duration: float = end - start
     print(f"Training time: {training_duration:.2f} seconds")
 
-
     return train_losses, test_losses, training_duration
 
 def accuracy(predictions, labels) -> float:
