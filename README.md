@@ -1,10 +1,6 @@
-# Introduction to NLP 01
-# Lab 02 by François Soulier, Raphaël Bennaïm and Bastien Hoorelbeke
+# Introduction to NLP 01 by François Soulier, Raphaël Bennaïm and Bastien Hoorelbeke
 ## Short description of the project
-This project involves coding a sentiment classifier on the IMDB sentiment dataset. It is divided in three main parts:
-* Pre-processing data: getting the data and remove unuseful features in order to work on clean data.
-* Naive Bayes Classifier: Implementation of a classifier based on conditional probabilities and another one which is using sickit-learn.
-* Stemming and Lemmatization: Adding stemming or lemmatization to the pretreatment.
+This project involves all practical works on NLP
 ## Description of the file/module architecture
  * [lab02](./lab02)
    * [nbc.png](./lab02/nbc.png)
