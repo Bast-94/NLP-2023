@@ -20,4 +20,4 @@ This project involves all practical works on NLP
    * [naive_bayes](./scripts/naive_bayes)
    * [from_scratch.py](./scripts/naive_bayes/from_scratch.py)
    * [scikit_learn.py](./scripts/naive_bayes/scikit_learn.py)
- * [tree.sh](./tree.sh)#!/bin/bash# Project tree
+ * [tree.sh](./tree.sh)
