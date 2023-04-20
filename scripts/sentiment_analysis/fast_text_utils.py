@@ -1,4 +1,5 @@
 import pandas as pd
+import fasttext
 from string import punctuation
 
 def to_fast_text_format(df: pd.DataFrame, label_column_name: str, texts_column_name: str) -> None:
@@ -50,5 +51,16 @@ def display_results(resuls: tuple[float]) -> None:
         results(tuple[float]): Tuple of (number of examples, precision, recall)
     """
     print(f'Number of examples: {resuls[0]}')
-    print(f'Precision: {resuls[1]}')
+    print(f'Precision: {resuls[1] * 100:.2f}%')
     print(f'Recall: {resuls[2]}')
+
+def display_model_attributes(model: fasttext.FastText._FastText, parameters: list[str]) -> None:
+    """
+    Display model attributes.
+    Args:
+        model(fasttext.FastText._FastText): Trained model.
+        parameters(list[str]): List of parameters to display.
+    """
+    for attr in parameters:
+        print(f'{attr}: {getattr(model, attr)}')
+        
