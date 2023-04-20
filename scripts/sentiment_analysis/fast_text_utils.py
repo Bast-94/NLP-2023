@@ -32,3 +32,13 @@ def preprocess_text(text: str) -> str:
     text = text.translate(str.maketrans('', '', punctuation))
 
     return text
+
+def save_to_file(df: pd.DataFrame, file_name: str) -> None:
+    """
+    Save data of a pandas DataFrame to a file.
+    Args:
+        df: pandas DataFrame with column 'text'
+        file_name: name of the file to save
+    """
+    with open(file_name, 'w') as f:
+        f.write(df.to_string(header=False, index=False))
