@@ -42,3 +42,13 @@ def save_to_file(df: pd.DataFrame, file_name: str) -> None:
     """
     with open(file_name, 'w') as f:
         f.write(df.to_string(header=False, index=False))
+
+def display_results(resuls: tuple[float]) -> None:
+    """
+    Display accuracy of the model.
+    Args:
+        results(tuple[float]): Tuple of (number of examples, precision, recall)
+    """
+    print(f'Number of examples: {resuls[0]}')
+    print(f'Precision: {resuls[1]}')
+    print(f'Recall: {resuls[2]}')
