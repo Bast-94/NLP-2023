@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 tree.sh
+
+# Data outputs
+*/output/*
