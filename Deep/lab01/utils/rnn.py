@@ -72,11 +72,12 @@ def data_generator(
     """
     X, y = shuffle(X, y)
     for i in range(0, len(X), batch_size):
-        X_batch = nn.utils.rnn.pad_sequence(
-            X[i : i + batch_size], batch_first=True, padding_value=pad_id
+        batch_X = X[i : i + batch_size]
+        batch_y = y[i : i + batch_size]
+        batch_X = nn.utils.rnn.pad_sequence(
+            batch_X, batch_first=True, padding_value=pad_id
         )
-        y_batch = torch.tensor(y[i : i + batch_size], dtype=torch.float32)
-        yield X_batch, y_batch
+        yield batch_X, torch.tensor(batch_y, dtype=torch.float32)
 
 def get_device() -> str:
     """
