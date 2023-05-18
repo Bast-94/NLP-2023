@@ -131,3 +131,6 @@ tree.sh
 
 # Data outputs
 */output/*
+
+# Models
+*/*/*.pt
