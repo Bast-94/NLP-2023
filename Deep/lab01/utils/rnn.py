@@ -8,6 +8,7 @@ import torch
 import torch.nn as nn
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from tqdm.auto import tqdm
 
 def load_imdb_datasets() -> tuple[ds.Dataset]:
     """
@@ -133,6 +134,8 @@ def evaluate(
 
 def train(
     model: nn.Module,
+    X_train: List[torch.Tensor],
+    X_val: List[torch.Tensor],
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer,
     train_generator: Generator[Tuple[torch.Tensor, torch.Tensor], None, None],
@@ -168,7 +171,7 @@ def train(
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
-        train_loss /= len(train_generator)
+        train_loss /= len(X_train)
         valid_loss = 0.0
         model.eval()
         with torch.no_grad():
@@ -178,7 +181,7 @@ def train(
                 y_pred = model(X_batch)
                 loss = criterion(y_pred, y_batch.unsqueeze(1))
                 valid_loss += loss.item()
-            valid_loss /= len(valid_generator)
+            valid_loss /= len(X_val)
         train_losses.append(train_loss)
         valid_losses.append(valid_loss)
         if valid_loss < best_valid_loss:
