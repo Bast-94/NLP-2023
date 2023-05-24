@@ -23,16 +23,13 @@ At training, you will encounter `TypeError: ZipperIterDataPipe instance doesn't 
 ### **(4 points)** Theoretical questions
 
 Answer the following questions.
-
 * In the positional encoding, why are we using a combination of sinus and cosinus?
 * In the `Seq2SeqTransformer` class,
   * What is the parameter nhead for?
   * What is the point of the `generator`?
 * Describe the goal of the `create_mask` function. Why does it handle differently the source and target masks?
-  
 
-### **(6 points)** Decoding functions
-
+### **(6 points)** Decoding functions  
 The tutorial uses a greedy approach at decoding. Implement the following variations.
 * (3 points) A top-k sampling with temperature.
 * (1 point) A top-p sampling with temperature.
