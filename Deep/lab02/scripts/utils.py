@@ -133,11 +133,10 @@ def tensor_transform(token_ids: List[int], bos_idx: int, eos_idx: int) -> torch.
                       torch.tensor(token_ids),
                       torch.tensor([eos_idx])))
 
-def collate_fn(batch, pad_idx: int, source_language: str, target_language: str, text_transform: Dict[str, Callable]) -> tuple[torch.Tensor, torch.Tensor]:
+def collate_fn(pad_idx: int, source_language: str, target_language: str, text_transform: Dict[str, Callable]) -> tuple[torch.Tensor, torch.Tensor]:
     """
     Function to collate data samples into batch tensors.
     Args:
-        batch (Iterable): Iterable data batch to collate.
         pad_idx (int): Index for padding token.
         source_language (str): Source language.
         target_language (str): Target language.
@@ -145,11 +144,14 @@ def collate_fn(batch, pad_idx: int, source_language: str, target_language: str, 
     Returns:
         tuple[torch.Tensor, torch.Tensor]: Tuple of source and target batch tensors.
     """
-    src_batch, tgt_batch = [], []
-    for src_sample, tgt_sample in batch:
-        src_batch.append(text_transform[source_language](src_sample.rstrip("\n")))
-        tgt_batch.append(text_transform[target_language](tgt_sample.rstrip("\n")))
+    def collate_fn(batch: Iterable) -> tuple[torch.Tensor, torch.Tensor]:
+        src_batch, tgt_batch = [], []
+        for src_sample, tgt_sample in batch:
+            src_batch.append(text_transform[source_language](src_sample.rstrip("\n")))
+            tgt_batch.append(text_transform[target_language](tgt_sample.rstrip("\n")))
 
-    src_batch = pad_sequence(src_batch, padding_value=pad_idx)
-    tgt_batch = pad_sequence(tgt_batch, padding_value=pad_idx)
-    return src_batch, tgt_batch
+        src_batch = pad_sequence(src_batch, padding_value=pad_idx)
+        tgt_batch = pad_sequence(tgt_batch, padding_value=pad_idx)
+        return src_batch, tgt_batch
+    
+    return collate_fn
