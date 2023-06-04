@@ -144,7 +144,7 @@ def collate_fn(pad_idx: int, source_language: str, target_language: str, text_tr
     Returns:
         tuple[torch.Tensor, torch.Tensor]: Tuple of source and target batch tensors.
     """
-    def collate_fn(batch: Iterable) -> tuple[torch.Tensor, torch.Tensor]:
+    def batch_collate_fn(batch: Iterable) -> tuple[torch.Tensor, torch.Tensor]:
         src_batch, tgt_batch = [], []
         for src_sample, tgt_sample in batch:
             src_batch.append(text_transform[source_language](src_sample.rstrip("\n")))
@@ -154,4 +154,4 @@ def collate_fn(pad_idx: int, source_language: str, target_language: str, text_tr
         tgt_batch = pad_sequence(tgt_batch, padding_value=pad_idx)
         return src_batch, tgt_batch
     
-    return collate_fn
+    return batch_collate_fn
